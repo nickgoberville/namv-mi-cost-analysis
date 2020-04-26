@@ -6,6 +6,7 @@
     "FM_raise": 1.15,           
     "a-kit_cost": 50000,       
     "teleops_cost": 5000,      
-    "a-kit_maintenance": 0.01,  
+    "a-kit_maintenance": 0.01,
+    "teleops_maintenance": 0.008,  
     "electric_cost": 0.13,
     "inflation_rate": 0.8015}
