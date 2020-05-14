@@ -99,10 +99,11 @@ class cost_gens:
             yield self.driver_YTD, self.driver_cash_flow        
 
 class model:
-    def __init__(self, df, index, miles_per_year=0, assumptions_json='assumptions.json', modes_json='modes.json', inflation=False, mode='normal'):
+    def __init__(self, df, index, miles_per_year=0, riders_per_year=100, assumptions_json='assumptions.json', modes_json='modes.json', inflation=False, mode='normal'):
         modes = read_json(modes_json)
         self.mode = mode
         # Create variables from parameters in dataframe
+        self.name_nomode = df.vehicle[index]
         self.name = df.vehicle[index]+'_'+mode               # name of vehicle model
         self.purchase = df.purchase[index]          # initial purchase cost
         self.maintenance = df.maintenance[index]    # cost per mile
@@ -114,6 +115,7 @@ class model:
         self.miles_per_year = miles_per_year
         self.category = df.category[index]
         self.drive_train = df.drive_train[index]
+        self.riders_per_year = riders_per_year
 
         self.inflation = inflation
         # Get common assumptions
@@ -173,7 +175,7 @@ class model:
         # --> possibly use better ridership model (simulations)
         YTD, cash_flows = self.total(include_purchase=include_purchase)
         avg_per_year = np.true_divide(YTD, self.assumptions['years'])
-        cost_per_rider = np.true_divide(avg_per_year, self.miles_per_year*self.passengers)
+        cost_per_rider = np.true_divide(avg_per_year, self.riders_per_year)
 
         cash_flows_per_rider = np.true_divide(cash_flows, self.passengers)
         return cost_per_rider, cash_flows_per_rider

@@ -10,6 +10,7 @@ from simulation.rider_sim import *
 import pandas as pd
 import time
 import argparse
+import glob
 
 def data_to_year_csv(week_list, output_filename):
     df_dict = {'riders_left': [],
@@ -28,19 +29,33 @@ def data_to_year_csv(week_list, output_filename):
     df.to_csv(output_filename, index=True, header=True)
 
 if __name__ == '__main__':
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument('-v', '--verbose', help='Identify verbose output.', action='store_true', default=False)    
+    #parser defined in simulation.rider_sim
+    #parser.add_argument('-d', '--drive_train', help='Identify drive train to run simulations with.', action='store_true', default=False)    
     #parser.add_argument('run_number', help='Identify which simulation scenario to run.', type=int)
     #args = parser.parse_args()
     #run_num = args.run_number
     #verbose = args.verbose
     
-    vehicles = pd.read_csv(cost_analysis_root+'vehicles.csv')
+    # Uncomment which drive train to run simulations with
+    #vehicles = pd.read_csv(cost_analysis_root+'vehicles_EV.csv')
+    #vehicles = pd.read_csv(cost_analysis_root+'vehicles_ICE.csv')
+    
+
     modes = read_json(cost_analysis_root+'modes.json')
     models_dict = {}
 
-    for index in vehicles.index:
-        vehicle = model(vehicles, index, inflation=False, assumptions_json=cost_analysis_root+'assumptions.json', modes_json=cost_analysis_root+'modes.json')
+    types = ['Small', 'Medium', 'Large', 'X-Large']
+    #for j, scenario in enumerate(glob.glob('scenario*')):
+
+
+    for i in range(2):
+        if i == 0:
+            vehicles = pd.read_csv(cost_analysis_root+'vehicles_EV.csv')
+        else:
+            vehicles = pd.read_csv(cost_analysis_root+'vehicles_ICE.csv') 
+            #for index in vehicles.index:
+        vehicle = model(vehicles, run_num-1, inflation=False, assumptions_json=cost_analysis_root+'assumptions.json', modes_json=cost_analysis_root+'modes.json')
         week_list = main(vehicle, real_time=False, verbose=verbose)
-        output_filename = "scenario_" + str(run_num) + "/sim_results/" + vehicle.name + ".csv"
+        name = vehicle.name[0:-6]   # remove "_normal" from vehicle name
+        output_filename = "scenario_" + str(run_num) + "/sim_results/" + name + vehicle.drive_train + ".csv"
         data_to_year_csv(week_list, output_filename)

@@ -1,0 +1,8 @@
+{"hours/day": 8,
+    "days/week": 5,
+    "weeks/year": 52,
+    "avg speed": 30,
+    "stops": 15,
+    "loop distance": 5,
+    "initial riders": 50,
+    "new rider freq": 15}

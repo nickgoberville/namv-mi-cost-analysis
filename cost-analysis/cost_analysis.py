@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 import json
 from cost_model.cost_model import *     # my module
 
-vehicles = pd.read_csv('vehicles.csv')
+drive_train = '_EV'
+vehicles = pd.read_csv('vehicles'+drive_train+'.csv')
 modes = read_json('modes.json')
 models_dict = {}
 
@@ -36,7 +37,7 @@ def which_plot(name, vehicle):
         exit()
     return out
 
-def line_plots(name, cash_flow=True, YTD=True):
+def line_plots(name, miles, cash_flow=True, YTD=True):
     plot_types = []
     sup_title = [name+' '+'YTD', name+' '+'cash_flow']
     if YTD:
@@ -53,7 +54,7 @@ def line_plots(name, cash_flow=True, YTD=True):
             if not axes_set: 
                 ax = []
             for i, (key, value) in enumerate(modes.items()):
-                vehicle = model(vehicles, index, 100000, inflation=True, mode=key)
+                vehicle = model(vehicles, index, miles, inflation=True, mode=key)
                 y = which_plot(name, vehicle)
                 models_dict[vehicle.name] = vehicle
                 
@@ -69,6 +70,6 @@ def line_plots(name, cash_flow=True, YTD=True):
 #for item in to_plot:
 #    line_plots(item)
 
-x = get_miles('sim_runs/scenario_1/sim_results/small_normal.csv')
-print(x)
+#x = get_miles('sim_runs/scenario_1/sim_results/small_normal.csv')
+#print(x)
 
