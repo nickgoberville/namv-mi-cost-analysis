@@ -1,0 +1,18 @@
+Introduction
+  Transition to AVs
+  Purpose of paper
+  
+Methods
+  Vehicle data gathering (Marsad)
+  Simulation Development
+  
+    
+
+Results
+  Costs per rider
+  Total costs over 10 years
+  3 Different deployment scenarios
+  
+
+
+Conclusions

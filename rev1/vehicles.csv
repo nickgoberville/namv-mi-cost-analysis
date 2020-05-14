@@ -1,5 +1,0 @@
-vehicle,purchase,operation,maintenance,passengers
-small,20000,0.01,0.033,4
-medium,50000,0.03,0.05,8
-large,100000,0.05,0.1,15
-extra-large,250000,0.1,0.4,30
