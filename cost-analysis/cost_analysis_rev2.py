@@ -25,6 +25,7 @@ fig_YTD.suptitle('Year-to-Date Cost')
 ax_YTD = []
 fig_YTD_axes_set = False
 
+# cost per rider plot
 fig_rider = plt.figure()
 fig_rider.suptitle('Cost per Rider')
 ax_rider = []
