@@ -26,6 +26,10 @@ assumptions = read_json('assumptions.json')
 import time
 
 c = ['r', 'b', 'g', 'y']
+for scenario in glob.glob("sim_runs/scenario_*"):
+    for scenario_results in glob.glob(scenario+"/sim_results/*.csv"):
+        print(scenario_results)
+
 
 for sim_scenario in glob.glob('sim_runs/scenario_1'):    # loop each simulation scenario
     fig = plt.figure()
@@ -48,11 +52,13 @@ for sim_scenario in glob.glob('sim_runs/scenario_1'):    # loop each simulation 
             ax = []
         label = mode
 
+
+
         for index in vehicles.index:                        # loop each vehicle in csv file
             i = index
             sim_results_df = pd.read_csv(sim_scenario+'/sim_results/'+vehicles.vehicle[index]+drive_train+'.csv')   # get simulation results for vehicle
             sim_results = sim.Results(sim_results_df)        
-            yearly_miles = np.sum(sim_results.daily_dist)       # Probably wrong..
+            yearly_miles = np.sum(sim_results.daily_dist)       # 
             vehicle = model(vehicles, index, yearly_miles, mode=mode)
 
             #yearly_riders = np.sum(sim_results.daily_rides)
@@ -75,7 +81,7 @@ for sim_scenario in glob.glob('sim_runs/scenario_1'):    # loop each simulation 
                # time.sleep(0)
         axes_set = True
     #plt.legend()
-    plt.show()
+    #plt.show()
 
         #TODO: Create new code that processes sim results and creates object for simulation results including:
         # total distance

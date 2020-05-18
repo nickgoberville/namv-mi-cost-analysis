@@ -66,9 +66,9 @@ def line_plots(name, miles, cash_flow=True, YTD=True):
             axes_set=True
         plt.show(block=True)
 
-#to_plot = ['maintenance', 'operation', 'per rider', 'total']
+# = ['maintenance', 'operation', 'per rider', 'total']
 #for item in to_plot:
-#    line_plots(item)
+#line_plots(to_plot[0], 10000)
 
 #x = get_miles('sim_runs/scenario_1/sim_results/small_normal.csv')
 #print(x)
