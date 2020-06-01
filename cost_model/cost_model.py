@@ -80,7 +80,7 @@ class cost_gens:
             year += 1
             yield self.maintenance_YTD, self.maintenance_cash_flow
 
-    def get_driver_gen(self, inflation):
+    def get_driver_gen(self, inflation, FM_flag=False):
         self.driver_cash_flow = [0]
         self.driver_YTD = [0]
         years = self.assumptions['years']
@@ -93,6 +93,7 @@ class cost_gens:
         year = 0
         while year < years:
             this_year_cost = self.model.driver_rate*salary*(1+inflate_rate*year)
+            if FM_flag: this_year_cost /= self.assumptions['fleet_size']
             self.driver_cash_flow.append(this_year_cost)            
             self.driver_YTD.append(np.sum(self.driver_cash_flow))
             year += 1
@@ -132,7 +133,7 @@ class model:
         self.maintenance_gen = self.gens.get_maintenance_gen(inflation=self.inflation)
 
         # Driver cost generator
-        self.driver_gen = self.gens.get_driver_gen(inflation=self.inflation)
+        self.driver_gen = self.gens.get_driver_gen(inflation=self.inflation, FM_flag=self.is_teleops)
 
     def description(self):
         print("{} in driving mode: {}\n".format(self.name, self.mode))

@@ -11,9 +11,10 @@ def plot(vehicle, fig_YTD, ax_YTD, index, fig_YTD_axes_set, c, label, i):
             ax_YTD[index].set_xlabel('Time (years)')
    # get vehicle cost model
             # plot YTD cost vs time
-    print("Plotting ytd of {}_{} in axes {}".format(vehicle.name, vehicle.drive_train, index))
+    #print("Plotting ytd of {}_{} in axes {}".format(vehicle.name, vehicle.drive_train, index))
     ytd, cash_flow = vehicle.total()
     ax_YTD[index].plot(vehicle.time, ytd, c[i], label=label)#label=label)
     ax_YTD[index].legend()
+    return ytd[-1]
 #fig = plt.figure()
 #ax = fig.add_subplot(111)

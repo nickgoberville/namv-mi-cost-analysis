@@ -3,6 +3,6 @@
     "weeks/year": 52,
     "avg speed": 30,
     "stops": 15,
-    "loop distance": 5,
-    "initial riders": 50,
-    "new rider freq": 15}
+    "loop distance": 2.0,
+    "initial riders": 60,
+    "new rider freq": 10}
