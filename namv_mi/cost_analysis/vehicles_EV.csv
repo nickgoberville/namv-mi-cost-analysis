@@ -1,0 +1,5 @@
+,vehicle,drive_train,category,purchase,operation,maintenance,passengers
+0,Small,EV,S,31771.666666666668,0.055333333333333325,0.032,5
+1,Medium,EV,M,32000.0,0.026000000000000002,0.05,7
+2,Large,EV,L,60000.0,0.15,0.4,24
+3,X-Large,EV,XL,555000.0,0.2,0.58,56
