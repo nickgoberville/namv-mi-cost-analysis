@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import json
 
 #TODO -------------#
-# --> NONE
+# --> Add docstrings for everything
 
 # Import vehicle parameters from csv
 def read_json(filename):
@@ -141,25 +141,46 @@ class model:
     def oper(self):
         for year in range(self.assumptions['years']):
             YTD_history, cash_flows = next(self.operation_gen)   
+        self.operCosts = []
+        self.operCosts.append(YTD_history)
+        self.operCosts.append(cash_flows)
         return YTD_history, cash_flows
 
     def maint(self):
         for year in range(self.assumptions['years']):
             YTD_history, cash_flows = next(self.maintenance_gen)   
+        self.maintCosts = []
+        self.maintCosts.append(YTD_history)
+        self.maintCosts.append(cash_flows)
         return YTD_history, cash_flows
 
     def driver(self):
         for year in range(self.assumptions['years']):
             YTD_history, cash_flows = next(self.driver_gen)   
+        self.driverCosts = []
+        self.driverCosts.append(YTD_history)
+        self.driverCosts.append(cash_flows)
         return YTD_history, cash_flows              
 
     def purch(self):
+        self.purchaseCost = [self.gens.get_purchase_cost(inflation=self.inflation)]
         return self.gens.get_purchase_cost(inflation=self.inflation)
 
+    def run_calcs(self):
+        try:
+            self.calcs_run
+        except:
+            self.oper()
+            self.maint()
+            self.driver()
+            self.purch()
+            self.calcs_run = True
+
     def total(self, include_purchase=True):
-        oper_YTD, oper_flow = self.oper()
-        maint_TYD, maint_flow = self.maint()
-        drive_YTD, drive_flow = self.driver()
+        self.run_calcs()
+        oper_YTD, oper_flow = self.operCosts
+        maint_TYD, maint_flow = self.maintCosts
+        drive_YTD, drive_flow = self.driverCosts
 
         cash_flows = np.add(oper_flow, np.add(maint_flow, drive_flow))
         YTD = np.add(oper_YTD, np.add(maint_TYD, drive_YTD))
@@ -172,8 +193,6 @@ class model:
         return YTD, cash_flows
     
     def per_rider(self, include_purchase=True):
-        # TODO: WILL NEED TO UPDATE FOR BETTER NORMALIZATION
-        # --> possibly use better ridership model (simulations)
         YTD, cash_flows = self.total(include_purchase=include_purchase)
         avg_per_year = np.true_divide(YTD, self.assumptions['years'])
         cost_per_rider = np.true_divide(avg_per_year, self.riders_per_year)

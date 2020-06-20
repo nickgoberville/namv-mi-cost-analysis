@@ -2,20 +2,36 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 
-#TODO 1: Add kwarg parameter to format so the class will never need to change, just adjust kwarg values!!
-
-
-
 class barPlot:
     """
+    Description
+    ----------
     Class for easier bar plot generation.
+
+    Parameters
+    ----------
+    qty  :  int
+        Number of subplots in the figure
+    
+    barWidth  :  float
+        Thickness of bars in the plot
+
+    barperVal  :  int
+        Number of values to plot at each tick mark
+
+    suptitle  :  str
+        Title of entire figure
+    
+    suptitle_fsize  :  int
+        Font size of figure title
     """
     def __init__(self, *args, **kwargs):
         # Set default Params
         self.params = {"qty": 1,
                        "barWidth": 0.2,
                        "barperVal": 1,
-                       "suptitle": "Bar Plot"
+                       "suptitle": "Bar Plot",
+                       "suptitle_fsize": 20
                        }
 
         # Readjust params from input
@@ -24,7 +40,7 @@ class barPlot:
 
         # Setup figure
         self.figure = plt.figure()
-        self.figure.suptitle(self.params['suptitle'])
+        self.figure.suptitle(self.params['suptitle'], fontsize=self.params["suptitle_fsize"])
 
         # Setup subplots
         self.vals = []  # List for values to plot
@@ -39,6 +55,8 @@ class barPlot:
 
     def add_val(self, val, ax_num):
         '''
+        Description
+        ----------
         Add new value to subplot number indicated in input. 
         
         Parameters
@@ -54,6 +72,9 @@ class barPlot:
     def set_bar_locations(self):
     
         """ 
+        Description
+        ----------
+
         Gets list of positions for bar locations. Initializes barPlot.r {list} variable
         """    
         self.r = []                                                                 # Set number of bars to plot
@@ -113,7 +134,7 @@ class barPlot:
                         self.p[ax_num].append(self.ax[ax_num].bar(self.r[j], self.vals[ax_num][key], width=self.params['barWidth']-0.05, color=colors[j], edgecolor='k'))
 
 
-    def format(self, xlabels, sub_titles, legend_labels, orientation="Horizontal"):
+    def format(self, xlabels, sub_titles, legend_labels, **kwargs):
         """
         Description
         ----------
@@ -132,29 +153,62 @@ class barPlot:
 
         orientation  :  str
             Bar plot orientation
+
+        tick_fsize  :  int
+            Font size of ticks labels
+
+        legend_fsize  :  int
+            Font size of legend
+
+        legend_loc  :  str
+            Location of legend using matplotlib's options
+
+        grid  :  bool
+            Do you want a grid?
+
+        label_fsize  :  int
+            Font size of axis labels
+
+        title_fsize  :  int
+            Font size of subplot titles
+
+        axis_label  :  str
+            Label of axis
         """
+        params = {"orientation": "Horizontal",
+                  "tick_fsize": 20,
+                  "legend_fsize": 20,
+                  "legend_loc": "upper left",
+                  "grid": True,
+                  "label_fsize": 20,
+                  "title_fsize": 20,
+                  "axis_label": "Cost"
+                  }
+
+        for key, val in kwargs.items():
+            params[key] = val
+
         ticks = 0
         for r in self.r:
-            print(ticks)
             ticks += np.asarray(np.float64(r))
         ticks /= len(self.r)
         
         for enum in range(len(self.ax)):
-            if orientation == "Horizontal":
+            if params["orientation"] == "Horizontal":
                 self.ax[enum].set_yticks(ticks)
-                self.ax[enum].set_yticklabels(xlabels, fontsize=20)
-                self.ax[enum].legend(self.p[enum], legend_labels, loc='upper left',fontsize=20)
-                self.ax[enum].xaxis.grid(linestyle=':', color='k', linewidth=2)
-                self.ax[enum].set_xlabel('Cost ($/mile)')
-                self.ax[enum].set_title(sub_titles[enum])
+                self.ax[enum].set_yticklabels(xlabels, fontsize=params["tick_fsize"])
+                self.ax[enum].legend(self.p[enum], legend_labels, loc=params["legend_loc"],fontsize=params["legend_fsize"])
+                if params["grid"]: self.ax[enum].xaxis.grid(linestyle=':', color='k', linewidth=2)
+                self.ax[enum].set_xlabel(params["axis_label"], fontsize=params["label_fsize"])
+                self.ax[enum].set_title(sub_titles[enum], fontsize=params["title_fsize"])
 
-            elif orientation == "Vertical":
+            elif params["orientation"] == "Vertical":
                 self.ax[enum].set_xticks(ticks)
-                self.ax[enum].set_xticklabels(xlabels, fontsize=20)
-                self.ax[enum].legend(self.p[enum], legend_labels, loc='upper left',fontsize=20)
-                self.ax[enum].yaxis.grid(linestyle=':', color='k', linewidth=2)
-                self.ax[enum].set_ylabel('Cost ($/mile)')
-                self.ax[enum].set_title(sub_titles[enum])
+                self.ax[enum].set_xticklabels(xlabels, fontsize=params["tick_fsize"])
+                self.ax[enum].legend(self.p[enum], legend_labels, loc=params["legend_loc"],fontsize=params["legend_fsize"])
+                if params["grid"]: self.ax[enum].yaxis.grid(linestyle=':', color='k', linewidth=2)
+                self.ax[enum].set_ylabel(params["axis_label"], fontsize=params["label_fsize"])
+                self.ax[enum].set_title(sub_titles[enum], fontsize=params["title_fsize"])
 
     def show(self):
         """
@@ -162,6 +216,42 @@ class barPlot:
         """
         plt.show()
 
+class linePlot:
+    """
+    Description
+    ----------
+
+    Enter Description Here
+
+    Parameters
+    ----------
+
+    """
+    def __init__(self, *args, **kwargs):
+        # Set default Params
+        self.params = {"qty": 1,
+                       "suptitle": "Bar Plot",
+                       "suptitle_fsize": 20
+                       }
+
+        # Readjust params from input
+        for key, val in kwargs.items():
+            self.params[key] = val
+
+        # Setup figure
+        self.figure = plt.figure()
+        self.figure.suptitle(self.params['suptitle'], fontsize=self.params["suptitle_fsize"])
+
+        # Setup subplots
+        self.vals = []  # List for values to plot
+        self.ax = []    # List for subplot axes
+        for i in range(self.params["qty"]):
+            # Get dimensions of figure
+            dims = sub_dim(self.params["qty"], i+1)
+            # Append subplot to axes list, ax
+            self.ax.append(self.figure.add_subplot(dims[0], dims[1], dims[2]))
+            # Setup Vals list for each subplot
+            self.vals.append([])
 
 # Helper functions
 def sub_dim(num, index, col_size=3, return_type=tuple):
@@ -171,7 +261,7 @@ def sub_dim(num, index, col_size=3, return_type=tuple):
     Parameters
     ----------
     num  :  int
-        # of subplots
+        Number of subplots
     
     index  :  int
         Index of specific subplot
@@ -192,6 +282,9 @@ def sub_dim(num, index, col_size=3, return_type=tuple):
 
 def random_color():
     """
+    Description
+    ----------
+
     Get random color tuple for matplotlib
 
     rtype  :  tuple (0-1, 0-1, 0-1)

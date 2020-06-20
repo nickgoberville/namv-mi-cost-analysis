@@ -4,7 +4,7 @@ namvi_mi_root = os.getcwd()+'/..'
 sys.path.append(namvi_mi_root)
 from namv_mi.cost_model.cost_model import *
 from namv_mi.utils import process_sim_results as sim
-from namv_mi.plots.templates import barPlot, sub_dim
+from namv_mi.utils.plot_templates import barPlot, sub_dim
 '''import glob
 import pandas as pd
 from plot_code import rider, YTD
@@ -22,7 +22,7 @@ modes = read_json('params/modes.json')     # defined in cost_model.cost_model
 drive_trains = ['_EV', '_ICE']        #TODO REMOVE THE COMMENTED PART IN HERE
 
 # cost per rider plot
-bar = barPlot(qty=2, barperVal=4)
+riderbar = barPlot(qty=2, barperVal=4)
 
 fig_rider_axes_set = False
 
@@ -82,10 +82,10 @@ for enum, drive_train in enumerate(drive_trains):
 
     fig_YTD_axes_set = True # set axes set to true
 
-    bar.add_val(rider_vals, enum)
+    riderbar.add_val(rider_vals, enum)
 
-bar.plot(plot_order=['normal', 'AV_SD', 'AV_FM', 'AV_full'], orientation="Horizontal", colors=colors)
+riderbar.plot(plot_order=['normal', 'AV_SD', 'AV_FM', 'AV_full'], orientation="Horizontal", colors=colors)
 
-bar.format(['Small', 'Medium', 'Large', 'X-Large'], ['EV', 'ICE'], ['normal', 'AV_SD', 'AV_FM', 'AV_full'], orientation="Horizontal")
+riderbar.format(['Small', 'Medium', 'Large', 'X-Large'], ['EV', 'ICE'], ['normal', 'AV_SD', 'AV_FM', 'AV_full'], label_fsize=20, legend_loc="lower right")
 
-bar.show()
+riderbar.show()
