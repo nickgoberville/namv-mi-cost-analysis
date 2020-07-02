@@ -9,5 +9,5 @@
            "is_teleops": true},
  "AV_full": {"driver_rate": 0.0,
              "is_AV": true,
-             "is_teleops": false}
+             "is_teleops": false}            
 }
