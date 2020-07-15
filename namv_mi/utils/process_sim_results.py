@@ -21,3 +21,12 @@ class Results:
                 if rider_wait_time >= min_bound and rider_wait_time < max_bound:
                     count += 1
         return count
+
+    def show(self):
+        print('''Index: {}
+                 Daily Riders Left: {} riders
+                 Daily Miles Driven: {} miles
+                 Daily Rides: {} rides
+                 Daily wait times: {}'''.format(self.index, self.daily_riders_left, 
+                self.daily_dist, self.daily_rides, self.daily_wait_times))
+                
