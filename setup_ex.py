@@ -1,8 +1,8 @@
 from distutils.core import setup
 
-setup(name = "namv_mi",
+setup(name = "reVision",
     version = "0.1",
-    description = "Cost model code",
+    description = "Core technology of Revision Autonomy",
     author = "Nick Goberville",
     author_email = "nicholas.a.goberville@wmich.edu",
     url = "Nan",
@@ -10,4 +10,4 @@ setup(name = "namv_mi",
     #(If you have other packages (dirs) or modules (py files) then
     #put them into the package directory - they will be found 
     #recursively.)
-    packages = ['namv_mi', 'namv_mi.cost_analysis', 'namv_mi.cost_model', 'namv_mi.simulation', 'namv_mi.utils'])
+    packages = ['reVision', 'reVision.access_data', 'reVision.models', 'reVision.models.ai', 'reVision.models.non_ai', 'reVision.tools'])

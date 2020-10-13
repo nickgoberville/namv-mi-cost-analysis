@@ -27,7 +27,8 @@ def main():
             sim_results_path = 'sim_runs/scenario_'+str(index+1)+'/sim_results/'+vehicles.vehicle[index]+drive_train+'.csv'
             sim_results_df = pd.read_csv(sim_results_path)   # get simulation results for vehicle
             sim_results = sim.Results(sim_results_df)           # Process simulation results
-            print(sim_results.show())
+            
+
             yearly_miles = np.sum(sim_results.daily_dist)       # Get yearly miles
             yearly_riders = np.sum(sim_results.daily_rides)     # Get yearly_riders
 
@@ -36,7 +37,10 @@ def main():
                 # Get vehicle cost model
                 vehicle = model(vehicles, index, yearly_miles, yearly_riders, mode=mode, inflation=False, assumptions_json="params/assumptions.json", modes_json="params/modes.json")
                 # Get ytd & cash flow vectors
-                ytd, cash_flow = vehicle.total()
+                ytd, cash_flow = vehicle.purchase()
+                ytd, cash_flow = vehicle.maintenance()
+                ytd, cash_flow = vehicle.operation()
+                
                 # Calculate cost per mile vector
                 cost_per_mile = ytd[-1]/((vehicle.miles_per_year)*vehicle.time[-1])
                 # Append vectors to rider_vals dict

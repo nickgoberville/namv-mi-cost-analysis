@@ -102,15 +102,33 @@ class cost_gens:
             yield self.driver_YTD, self.driver_cash_flow        
 
 class model:
-    def __init__(self, df, index, miles_per_year=0, riders_per_year=100, assumptions_json='params/assumptions.json', modes_json='params/modes.json', inflation=False, mode='normal', time_period='year'):
+    def __init__(self, df, index, miles_vect, riders_per_year=100, assumptions_json='params/assumptions.json', modes_json='params/modes.json', inflation=False, mode='normal', time_period='year'):
+        """
+        Description
+        ----------
+        Class to define a vehicle cost model. Use this class to extact purchase, maintenance, operation, and driver costs.
+
+        Parameters
+        ---------
+        df  :  pandas.DataFrame
+            Containing cost rates of the vehicle model
+
+        index  :  int
+            Index of df that needs to be extracted for cost rates
+
+        miles_vect  :  np.array
+            Vector of miles per day/year. The length of the vector determines the time period
+        
+        #TODO -- Finish this Doc string
+        """
         modes = read_json(modes_json)
         self.mode = mode
         # Create variables from parameters in dataframe
         self.name_nomode = df.vehicle[index]
         self.name = df.vehicle[index]+'_'+mode               # name of vehicle model
         self.purchase = df.purchase[index]          # initial purchase cost
-        self.maintenance = df.maintenance[index]    # cost per mile
-        self.operation = df.operation[index]        # cost per mile
+        self.maintenance_rate = df.maintenance[index]    # cost per mile
+        self.operation_rate = df.operation[index]        # cost per mile
         self.passengers = df.passengers[index]      # passengers
         self.driver_rate = modes[mode]['driver_rate']              # driver pay rate {"Full AV": 0, "No AV": 1.0, "SD": 1.1, "FM": 1.15}
         self.is_AV = modes[mode]['is_AV']
@@ -119,35 +137,44 @@ class model:
         self.category = df.category[index]
         self.drive_train = df.drive_train[index]
         self.riders_per_year = riders_per_year
+        self.time_period = len(miles_vect)              # Should be # of days if days, 1 if years
 
         self.inflation = inflation
         # Get common assumptions
         self.assumptions = read_json(assumptions_json)
         # Get time array for plotting
         self.time = range(self.assumptions['years']+1)
-        self.time_period = time_period
         # Get object for model generators
         self.gens = cost_gens(self)
 
         # Operation cost generator
-        self.operation_gen = self.gens.get_operation_gen(inflation=self.inflation)
+        #self.operation_gen = self.gens.get_operation_gen(inflation=self.inflation)
     
         # Maintenance cost generator
-        self.maintenance_gen = self.gens.get_maintenance_gen(inflation=self.inflation)
+        #self.maintenance_gen = self.gens.get_maintenance_gen(inflation=self.inflation)
 
         # Driver cost generator
-        self.driver_gen = self.gens.get_driver_gen(inflation=self.inflation, FM_flag=self.is_teleops)
+        #self.driver_gen = self.gens.get_driver_gen(inflation=self.inflation, FM_flag=self.is_teleops)
 
     def description(self):
         print("{} in driving mode: {}\n".format(self.name, self.mode))
 
-    def oper(self):
-        for year in range(self.assumptions[self.time_period]):
-            YTD_history, cash_flows = next(self.operation_gen)   
-        self.operCosts = []
-        self.operCosts.append(YTD_history)
-        self.operCosts.append(cash_flows)
-        return YTD_history, cash_flows
+    def oper(self, inflation, miles_vect):
+        # Define variables for calculation
+        self.operation_cash_flow = [0]
+        self.operation_YTD = [0]
+            
+        if inflation:
+            inflate_rate = self.assumptions['inflation_rate']/self.time_period
+        else: 
+            inflate_rate = 0         
+        for t in range(self.time_period):
+
+            this_period_cost = miles_vect[t]*self.operation_rate*(1+inflate_rate*t)
+            self.operation_cash_flow.append(this_period_cost)            
+            self.operation_YTD.append(np.sum(self.operation_cash_flow))
+
+        return self.operation_YTD, self.operation_cash_flow
 
     def maint(self):
         for year in range(self.assumptions[self.time_period]):

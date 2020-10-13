@@ -8,8 +8,8 @@ from namv_mi.cost_analysis import cost_per_mile, cost_per_rider, ytd_plot, deplo
 #       3) Make it more general (EX: line 51 in cost_analysis.cost_per_mile)
 
 # Generating cost per mile plot
-#cost_per_mile.main()
-get_results.main()
+cost_per_mile.main()
+#get_results.main()
 #cost_per_rider.main(costs.csv)
 #ytd_plot.main(costs.csv)
 #deployment_scenarios_ytd.main(costs.csv)
