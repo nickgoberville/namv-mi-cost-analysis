@@ -10,4 +10,5 @@ setup(name = "namv_mi",
     #(If you have other packages (dirs) or modules (py files) then
     #put them into the package directory - they will be found 
     #recursively.)
-    packages = ['namv_mi', 'namv_mi.cost_analysis', 'namv_mi.cost_model', 'namv_mi.simulation', 'namv_mi.utils'])
+    packages = ['namv_mi', 'namv_mi.cost_analysis'],
+    package_dir={'namv_mi': 'src/modules/namv_mi', 'namv_mi.cost_analysis': 'src/modules/namv_mi/cost_analysis'})

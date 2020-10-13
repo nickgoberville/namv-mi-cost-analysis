@@ -1,0 +1,15 @@
+{"A": {"AV_upgrade": 2,
+        "teleop_upgrade": 4,
+        "full_upgrade": 6
+    },
+    
+"B": {"AV_upgrade": 0,
+    "teleop_upgrade": 2,
+    "full_upgrade": 5
+    },
+
+"C": {"AV_upgrade": 0,
+    "teleop_upgrade": 0,
+    "full_upgrade": 3
+    }
+}

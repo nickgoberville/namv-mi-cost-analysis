@@ -1,0 +1,13 @@
+{"normal": {"driver_rate": 1.0,
+    "is_AV": false,
+    "is_teleops": false},
+"AV_SD": {"driver_rate": 1.1,
+    "is_AV": true,
+    "is_teleops": false},
+"AV_FM": {"driver_rate": 1.15,
+    "is_AV": true,
+    "is_teleops": true},
+"AV_full": {"driver_rate": 0.0,
+      "is_AV": true,
+      "is_teleops": false}            
+}

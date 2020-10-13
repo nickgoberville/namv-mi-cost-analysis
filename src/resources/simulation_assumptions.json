@@ -1,0 +1,9 @@
+{"scenario_0":   {"hours/day": 8,
+                "days/week": 5,
+                "weeks/year": 52,
+                "avg speed": 12,
+                "stops": 10,
+                "loop distance": 1.2,
+                "initial riders": 0,
+                "new rider freq": 75}
+}
