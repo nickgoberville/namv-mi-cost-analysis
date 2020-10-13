@@ -276,13 +276,14 @@ def data_to_year_csv(week_list, output_filename):
     df.to_csv(output_filename, index=True, header=True)
 
 if __name__ == '__main__':
-    vehicles = pd.read_csv('vehicles.csv')
-    modes = read_json('modes.json')
+    vehicles = pd.read_csv('vehicles/vehicles_full.csv')
+    modes = read_json('params/modes.json')
     models_dict = {}
 
     for index in vehicles.index:
         vehicle = model(vehicles, index, miles_per_year=0, inflation=False, mode='normal')
         week_list = main(vehicle, real_time=False, verbose=False)
-        output_filename = "sim_results/" + vehicle.name + ".csv"
-        data_to_year_csv(week_list, output_filename)
+        print(week_list)
+        #output_filename = "sim_results/" + vehicle.name + ".csv"
+        #data_to_year_csv(week_list, output_filename)
     
