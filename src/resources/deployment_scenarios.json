@@ -1,4 +1,24 @@
-{"A": {"AV_upgrade": 2,
+{"baseline": {"AV_upgrade": 16,
+              "teleop_upgrade": 16,
+              "full_upgrade": 16
+            },
+
+            "AV_SD": {"AV_upgrade": 0,
+                "teleop_upgrade": 16,
+                "full_upgrade": 16
+            },
+
+            "AV_FM": {"AV_upgrade": 16,
+                "teleop_upgrade": 0,
+                "full_upgrade": 16
+            },
+
+            "AV_full": {"AV_upgrade": 16,
+                "teleop_upgrade": 16,
+                "full_upgrade": 0
+            },
+
+ "A": {"AV_upgrade": 2,
         "teleop_upgrade": 4,
         "full_upgrade": 6
     },

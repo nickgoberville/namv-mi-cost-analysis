@@ -1,5 +1,6 @@
 import pandas as pd
 import argparse
+import matplotlib.pyplot as plt
 
 from namv_mi import vehicle_model
 from namv_mi import helpers
@@ -30,6 +31,7 @@ def main():
             # Export results
             sim_results_output_path = output_directory+"{}-{}.csv".format(vehicle.vehicle_name, scenario)
             sim_results_df.to_csv(sim_results_output_path, index=True, header=True) 
+
 
 if __name__ == '__main__':
     main()
