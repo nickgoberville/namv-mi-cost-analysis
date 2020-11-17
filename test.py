@@ -23,6 +23,9 @@ def get_vect(in_array, dt=12, inflation=False):
     output.append(summer)
     return output
 
+def reduction(a, b):
+    return (a-b)/b*100
+
 @tick.FuncFormatter
 def reformat_large_tick_values(tick_val, pos):
     """
@@ -70,25 +73,39 @@ filtered_data = []
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
+drivetrain = "EV"
+size = "XLarge"
 # baseline plot
-df = pd.read_csv("output_data/costs/Small_EV-normal-scenario_0-baseline.csv")
-baseline = sumitup(get_vect(df.operation))
+df = pd.read_csv("output_data/costs/{}_{}-scenario_0-baseline.csv".format(size, drivetrain))
+baseline = sumitup(get_vect(df.total))
 ax.plot(range(15), baseline)#np.zeros((15,1)))
+totals = []
 for data in data_files:
-    if ("Small" in data) and ("EV" in data) and ("A" != data[-5]) and ("B" != data[-5]) and ("C" != data[-5]) and ("baseline" not in data): #"Large" in data or "Medium" in data or "XLarge" in data:# and "EV" in data and "scenario_0-A" in data:
+    if (size in data) and ("C" == data[-5]):# and ("XLarge" not in data):# and ("B" != data[-5]) and ("C" != data[-5]) and ("baseline" in data): #"Large" in data or "Medium" in data or "XLarge" in data:# and "EV" in data and "scenario_0-A" in data:
         
         filtered_data.append(data)
         df = pd.read_csv(data)
         #print(df)
         name = data.split('/')[-1][:-4]
         print(name)
-        ax.plot(range(15), sumitup(get_vect(df.operation)))
+        y = sumitup(get_vect(df.total))
+        totals.append(y[-1])
+        print(y[-1])
+        print('\n')
+        ax.plot(range(15), y)
         
         #ax.plot(range(15), -np.array(sumitup(get_vect(df.total))) + np.array(baseline))
 
+
+print(totals[-1]-totals[0])
+print("EV '%' reduction: {}".format(reduction(totals[-1], baseline[-1])))
+print("ICE '%' reduction: {}".format(reduction(totals[0], baseline[-1])))
 y_formatter = tick.ScalarFormatter(useOffset=True)
 ax.yaxis.set_major_formatter(reformat_large_tick_values)
 #print(filtered_data)
+
+
+
 plt.show()
 '''
 def get_vect(in_array, dt=12):
